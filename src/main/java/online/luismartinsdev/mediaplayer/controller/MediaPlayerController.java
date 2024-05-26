@@ -81,15 +81,14 @@ public class MediaPlayerController {
 
     @Component
     @AllArgsConstructor
-    public static class HandlerBackAction implements EventHandler<ActionEvent> {
+    public static class HandlerPreviousAction implements EventHandler<ActionEvent> {
 
-        private MediaPlayerModel model;
-        private MediaPlayerService service;
+        private final MediaPlayerModel model;
+        private final MediaPlayerService service;
 
         @Override
         public void handle(ActionEvent event) {
-            System.out.println("Back");
-            service.doNothing();
+            service.previousSong(model);
         }
     }
 
@@ -97,8 +96,8 @@ public class MediaPlayerController {
     @AllArgsConstructor
     public static class HandlerPlayPauseAction implements EventHandler<ActionEvent> {
 
-        private MediaPlayerModel model;
-        private MediaPlayerService service;
+        private final MediaPlayerModel model;
+        private final MediaPlayerService service;
 
         @Override
         public void handle(ActionEvent event) {
@@ -121,15 +120,14 @@ public class MediaPlayerController {
 
     @Component
     @AllArgsConstructor
-    public static class HandlerForwardAction implements EventHandler<ActionEvent> {
+    public static class HandlerNextAction implements EventHandler<ActionEvent> {
 
-        private MediaPlayerModel model;
-        private MediaPlayerService service;
+        private final MediaPlayerModel model;
+        private final MediaPlayerService service;
 
         @Override
         public void handle(ActionEvent event) {
-            System.out.println("Forward");
-            service.doNothing();
+            service.nextSong(model);
         }
     }
 

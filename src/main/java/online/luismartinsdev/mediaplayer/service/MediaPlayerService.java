@@ -48,12 +48,42 @@ public class MediaPlayerService {
         }
     }
 
+    public void nextSong(MediaPlayerModel model) {
+        int activeSongIndex = model.getActiveSongIndex().get();
+        final int currentSongIndexPlusOne =  activeSongIndex + 1;
+        int nextSongIndex = model.getSongList().size() == currentSongIndexPlusOne ? 0 : currentSongIndexPlusOne;
+
+        setSongIntoMediaPlayer(model, nextSongIndex);
+    }
+
+    public void previousSong(MediaPlayerModel model) {
+        int activeSongIndex = model.getActiveSongIndex().get();
+        final int currentSongIndexMinusOne =  activeSongIndex - 1;
+        int nextSongIndex = activeSongIndex == 0 ? model.getSongList().size() - 1 : currentSongIndexMinusOne;
+
+        setSongIntoMediaPlayer(model, nextSongIndex);
+    }
+
+    private static void setSongIntoMediaPlayer(MediaPlayerModel model, int nextSongIndex) {
+        File nextSongFile = model.getSongList().get(nextSongIndex);
+        Media nextSong = new Media(nextSongFile.toURI().toString());
+
+        model.getActiveSong().set(nextSong);
+        model.getActiveSongIndex().set(nextSongIndex);
+        model.getMediaPlayer().stop();
+        model.setMediaPlayer(new MediaPlayer(nextSong));
+        if (model.getPlaying().get()) {
+            model.getMediaPlayer().play();
+        }
+    }
+
     private void loadSongs(List<File> songs, MediaPlayerModel model) {
         model.getSongList().set(FXCollections.observableList(songs));
         if (!songs.isEmpty()) {
             Media activeSong = new Media(songs.get(0).toURI().toString());
             model.getActiveSong().set(activeSong);
             model.setMediaPlayer(new MediaPlayer(activeSong));
+            model.getActiveSongIndex().set(0);
         }
     }
 

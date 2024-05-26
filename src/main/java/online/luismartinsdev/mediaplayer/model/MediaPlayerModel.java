@@ -1,6 +1,7 @@
 package online.luismartinsdev.mediaplayer.model;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -20,6 +21,7 @@ public class MediaPlayerModel {
     private SimpleBooleanProperty playing;
     private SimpleListProperty<File> songList;
     private SimpleObjectProperty<Media> activeSong;
+    private SimpleIntegerProperty activeSongIndex;
     private SimpleObjectProperty<File> activeDirectory;
     private MediaPlayer mediaPlayer;
 
@@ -28,6 +30,7 @@ public class MediaPlayerModel {
         songList = new SimpleListProperty<>(FXCollections.emptyObservableList());
         activeSong = new SimpleObjectProperty<>(null);
         activeDirectory = new SimpleObjectProperty<>(null);
+        activeSongIndex = new SimpleIntegerProperty(-1);
         mediaPlayer = null;
     }
 }

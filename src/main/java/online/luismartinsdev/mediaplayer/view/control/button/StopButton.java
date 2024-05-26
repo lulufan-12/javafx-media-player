@@ -1,4 +1,4 @@
-package online.luismartinsdev.mediaplayer.view.control.buttons;
+package online.luismartinsdev.mediaplayer.view.control.button;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Button;
@@ -8,57 +8,54 @@ import javafx.scene.media.Media;
 import online.luismartinsdev.mediaplayer.annotation.stereotype.View;
 import online.luismartinsdev.mediaplayer.controller.MediaPlayerController;
 import online.luismartinsdev.mediaplayer.state.MediaPlayerViewState;
+import online.luismartinsdev.mediaplayer.util.Constants;
 
 import java.lang.ref.Cleaner;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
-import static online.luismartinsdev.mediaplayer.util.Constants.Resources.IMAGES_ICONS_PAUSE_ICON_PNG;
-import static online.luismartinsdev.mediaplayer.util.Constants.Resources.IMAGES_ICONS_PLAY_ICON_PNG;
+import static online.luismartinsdev.mediaplayer.util.Constants.Resources.IMAGES_ICONS_STOP_ICON_PNG;
 
 @View
-public class PlayPauseButton extends Button implements Cleaner.Cleanable {
+public class StopButton extends Button implements Cleaner.Cleanable {
 
-    private final ImageView imageView;
     private final ChangeListener<Boolean> playingChangeListener;
     private final ChangeListener<Media> activeSongChangeListener;
-    private final String playIconUrl;
-    private final String pauseIconUrl;
     private final MediaPlayerViewState state;
 
-    public PlayPauseButton(MediaPlayerViewState state,
-                           MediaPlayerController.HandlerPlayPauseAction handlerPlayPauseAction) {
+    public StopButton(MediaPlayerController controller,
+                      MediaPlayerController.HandlerStopAction handlerStopAction,
+                      MediaPlayerViewState state) {
         this.state = state;
-        playIconUrl = requireNonNull(this.getClass().getClassLoader()
-                .getResource(IMAGES_ICONS_PLAY_ICON_PNG)).toString();
-        pauseIconUrl = requireNonNull(this.getClass().getClassLoader()
-                .getResource(IMAGES_ICONS_PAUSE_ICON_PNG)).toString();
-        imageView = createButtonImage();
+        ImageView imageView = createButtonImage();
 
-        setOnAction(handlerPlayPauseAction);
-        setDisable(isNull(state.getActiveSong().get()));
+        setOnAction(handlerStopAction);
+        setDisable(isNull(controller.getModel().getActiveSong().get()));
         setGraphic(imageView);
 
         playingChangeListener = createPlayingChangeListener();
         activeSongChangeListener = createActiveSongChangeListener();
+
         addListeners();
     }
 
     private ImageView createButtonImage() {
         final ImageView imageView;
-        Image image = new Image(playIconUrl);
+        String stopImageUrl = requireNonNull(this.getClass()
+                .getClassLoader().getResource(IMAGES_ICONS_STOP_ICON_PNG)).toString();
+        Image image = new Image(stopImageUrl);
         imageView = new ImageView(image);
-        imageView.setFitWidth(48);
-        imageView.setFitHeight(48);
+        imageView.setFitHeight(Constants.Sizes.MD);
+        imageView.setFitWidth(Constants.Sizes.MD);
         return imageView;
     }
 
     private ChangeListener<Boolean> createPlayingChangeListener() {
-        return (_c, _oldValue, newValue) -> imageView.setImage(new Image(newValue ? pauseIconUrl : playIconUrl));
+        return (_c, _oldValue, newValue) -> setDisable(!newValue);
     }
 
     private ChangeListener<Media> createActiveSongChangeListener() {
-        return (obs, oldValue, newValue) -> setDisable(isNull(obs.getValue()));
+        return (_c, _oldValue, newValue) -> setDisable(isNull(newValue));
     }
 
     private void addListeners() {

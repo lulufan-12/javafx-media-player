@@ -8,41 +8,39 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import online.luismartinsdev.mediaplayer.annotation.stereotype.View;
 import online.luismartinsdev.mediaplayer.controller.MediaPlayerController;
-import online.luismartinsdev.mediaplayer.view.control.buttons.PlayPauseButton;
-import online.luismartinsdev.mediaplayer.view.control.buttons.StopButton;
+import online.luismartinsdev.mediaplayer.view.control.button.NextButton;
+import online.luismartinsdev.mediaplayer.view.control.button.PlayPauseButton;
+import online.luismartinsdev.mediaplayer.view.control.button.PreviousButton;
+import online.luismartinsdev.mediaplayer.view.control.button.StopButton;
 import online.luismartinsdev.mediaplayer.view.control.listview.SongListView;
 
 @View
 public class MediaPlayerContainer extends VBox {
 
-    private Button btnOpenFolder;
-    private Button btnBack;
+    private final Button btnOpenFolder;
+    private final PreviousButton btnPrevious;
     private final PlayPauseButton btnPlayPause;
     private final StopButton btnStop;
-    private Button btnForward;
+    private final NextButton btnNext;
     private final SongListView songListView;
-    private final MediaPlayerController.HandlerOpenFolderAction handlerOpenFolderAction;
-    private final MediaPlayerController.HandlerBackAction handlerBackAction;
-    private final MediaPlayerController.HandlerForwardAction handlerForwardAction;
 
     public MediaPlayerContainer(PlayPauseButton btnPlayPause,
                                 StopButton btnStop,
+                                NextButton btnNext,
+                                PreviousButton btnPrevious,
                                 SongListView songListView,
-                                MediaPlayerController.HandlerOpenFolderAction handlerOpenFolderAction,
-                                MediaPlayerController.HandlerBackAction handlerBackAction,
-                                MediaPlayerController.HandlerForwardAction handlerForwardAction) {
-        this.handlerBackAction = handlerBackAction;
-        this.handlerForwardAction = handlerForwardAction;
+                                MediaPlayerController.HandlerOpenFolderAction handlerOpenFolderAction) {
         this.songListView = songListView;
         this.btnPlayPause = btnPlayPause;
+        this.btnNext = btnNext;
         this.btnStop = btnStop;
-        this.handlerOpenFolderAction = handlerOpenFolderAction;
-        createButtons();
+        this.btnPrevious = btnPrevious;
+        btnOpenFolder = createButton(handlerOpenFolderAction);
         defineLayout();
     }
 
     private void defineLayout() {
-        HBox hboxControlButtons = new HBox(btnBack, btnPlayPause, btnStop, btnForward);
+        HBox hboxControlButtons = new HBox(btnPrevious, btnPlayPause, btnStop, btnNext);
         hboxControlButtons.setSpacing(8);
         hboxControlButtons.setAlignment(Pos.CENTER);
         this.getChildren().addAll(btnOpenFolder, hboxControlButtons, songListView);
@@ -50,15 +48,9 @@ public class MediaPlayerContainer extends VBox {
         this.setSpacing(16);
     }
 
-    private void createButtons() {
-        btnOpenFolder = createButton("Open Folder", handlerOpenFolderAction);
-        btnBack = createButton("Back", handlerBackAction);
-        btnForward = createButton("Forward", handlerForwardAction);
-    }
-
-    private static Button createButton(String text, EventHandler<ActionEvent> handler) {
+    private static Button createButton(EventHandler<ActionEvent> handler) {
         Button button = new Button();
-        button.setText(text);
+        button.setText("Open Folder");
         button.setOnAction(handler);
         return button;
     }

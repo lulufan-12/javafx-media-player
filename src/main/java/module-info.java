@@ -22,7 +22,7 @@ module online.luismartinsdev.mediaplayer {
     opens online.luismartinsdev.mediaplayer.view.scene;
     opens online.luismartinsdev.mediaplayer.view.pane;
     opens online.luismartinsdev.mediaplayer.model;
-    opens online.luismartinsdev.mediaplayer.view.control.buttons;
+    opens online.luismartinsdev.mediaplayer.view.control.button;
     opens online.luismartinsdev.mediaplayer.view.control.listview;
     opens online.luismartinsdev.mediaplayer.state;
     opens images.icons;
