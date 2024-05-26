@@ -26,10 +26,6 @@ public class MediaPlayerService {
         loadSongs(filterByValidExtensions(directory), model);
     }
 
-    public void doNothing() {
-        System.out.println("Do nothing");
-    }
-
     public void stopSong(MediaPlayerModel model) {
         if (nonNull(model.getActiveSong())) {
             model.getPlaying().set(false);
@@ -72,6 +68,7 @@ public class MediaPlayerService {
         model.getActiveSongIndex().set(nextSongIndex);
         model.getMediaPlayer().stop();
         model.setMediaPlayer(new MediaPlayer(nextSong));
+
         if (model.getPlaying().get()) {
             model.getMediaPlayer().play();
         }
