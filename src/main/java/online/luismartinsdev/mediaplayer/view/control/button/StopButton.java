@@ -23,14 +23,13 @@ public class StopButton extends Button implements Cleaner.Cleanable {
     private final ChangeListener<Media> activeSongChangeListener;
     private final MediaPlayerViewState state;
 
-    public StopButton(MediaPlayerController controller,
-                      MediaPlayerController.HandlerStopAction handlerStopAction,
+    public StopButton(MediaPlayerController.HandlerStopAction handlerStopAction,
                       MediaPlayerViewState state) {
         this.state = state;
         ImageView imageView = createButtonImage();
 
         setOnAction(handlerStopAction);
-        setDisable(isNull(controller.getModel().getActiveSong().get()));
+        setDisable(isNull(state.getActiveSong().get()));
         setGraphic(imageView);
 
         playingChangeListener = createPlayingChangeListener();

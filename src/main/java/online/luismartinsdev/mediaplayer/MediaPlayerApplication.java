@@ -2,7 +2,6 @@ package online.luismartinsdev.mediaplayer;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import lombok.val;
 import online.luismartinsdev.mediaplayer.config.ApplicationCDIStartupConfig;
 import online.luismartinsdev.mediaplayer.context.ApplicationContextHolder;
 import online.luismartinsdev.mediaplayer.view.scene.MediaPlayerView;
@@ -21,7 +20,7 @@ public class MediaPlayerApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         ApplicationCDIStartupConfig.run(MediaPlayerApplication.class);
-        val context = (AnnotationConfigApplicationContext) ApplicationContextHolder.getInstance().getContext();
+        AnnotationConfigApplicationContext context = ApplicationContextHolder.getInstance().getContext();
         MediaPlayerView scene = context.getBean(MediaPlayerView.class);
         primaryStage.setTitle("JavaFX Media Player");
         primaryStage.setScene(scene);
