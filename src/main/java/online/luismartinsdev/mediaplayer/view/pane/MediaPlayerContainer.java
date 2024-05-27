@@ -1,23 +1,17 @@
 package online.luismartinsdev.mediaplayer.view.pane;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import online.luismartinsdev.mediaplayer.annotation.stereotype.View;
 import online.luismartinsdev.mediaplayer.controller.MediaPlayerController;
-import online.luismartinsdev.mediaplayer.view.control.button.NextButton;
-import online.luismartinsdev.mediaplayer.view.control.button.PlayPauseButton;
-import online.luismartinsdev.mediaplayer.view.control.button.PreviousButton;
-import online.luismartinsdev.mediaplayer.view.control.button.StopButton;
+import online.luismartinsdev.mediaplayer.view.control.button.*;
 import online.luismartinsdev.mediaplayer.view.control.listview.SongListView;
 
 @View
 public class MediaPlayerContainer extends VBox {
 
-    private final Button btnOpenFolder;
+    private final OpenFolderButton btnOpenFolder;
     private final PreviousButton btnPrevious;
     private final PlayPauseButton btnPlayPause;
     private final StopButton btnStop;
@@ -25,6 +19,7 @@ public class MediaPlayerContainer extends VBox {
     private final SongListView songListView;
 
     public MediaPlayerContainer(PlayPauseButton btnPlayPause,
+                                OpenFolderButton btnOpenFolder,
                                 StopButton btnStop,
                                 NextButton btnNext,
                                 PreviousButton btnPrevious,
@@ -35,7 +30,7 @@ public class MediaPlayerContainer extends VBox {
         this.btnNext = btnNext;
         this.btnStop = btnStop;
         this.btnPrevious = btnPrevious;
-        btnOpenFolder = createButton(handlerOpenFolderAction);
+        this.btnOpenFolder = btnOpenFolder;
         defineLayout();
     }
 
@@ -46,13 +41,6 @@ public class MediaPlayerContainer extends VBox {
         this.getChildren().addAll(btnOpenFolder, hboxControlButtons, songListView);
         this.setAlignment(Pos.CENTER);
         this.setSpacing(16);
-    }
-
-    private static Button createButton(EventHandler<ActionEvent> handler) {
-        Button button = new Button();
-        button.setText("Open Folder");
-        button.setOnAction(handler);
-        return button;
     }
 
 }
